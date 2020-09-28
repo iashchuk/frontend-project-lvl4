@@ -1,15 +1,14 @@
 // @ts-check
 
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const isProduction = process.env.NODE_ENV === 'production';
 // const isDevelopment = !isProduction;
 console.log('isProduction', isProduction);
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: [
-    `${__dirname}/src/index.js`,
-  ],
+  entry: [`${__dirname}/src/index.js`],
   externals: {
     gon: 'gon',
   },
