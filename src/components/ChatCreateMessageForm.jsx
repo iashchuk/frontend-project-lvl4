@@ -1,22 +1,46 @@
-// @ts-check
+import React, { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { addMessageAsync } from '../store/messages/async/addMessageAsync';
+import UserContext from '../UserContext';
+import selectors from '../store/selectors';
 
-import React from 'react';
+const ChatCreateMessageForm = () => {
+  const nickname = useContext(UserContext);
+  const channelId = useSelector(selectors.getCurrentChannelId);
+  const dispatch = useDispatch();
 
-const ChatCreateMessageForm = () => (
-  <form noValidate>
-    <div className="form-group">
-      <div className="input-group">
-        <input
-          name="body"
-          className="mr-2 form-control"
-          value=""
-          onChange={(f) => f}
-        />
-        <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
-        <div className="d-block invalid-feedback">&nbsp;</div>
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+    },
+    onSubmit: async ({ message }, { setSubmitting, resetForm }) => {
+      const attributes = { message, nickname, channelId };
+      dispatch(addMessageAsync(attributes));
+      setSubmitting(false);
+      resetForm();
+    },
+  });
+
+  console.log(formik.values.message);
+  return (
+    <form noValidate onSubmit={formik.handleSubmit}>
+      <div className="form-group">
+        <div className="input-group">
+          <input
+            name="message"
+            className="mr-2 form-control"
+            disabled={formik.isSubmitting}
+            value={formik.values.message}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
+          <div className="d-block invalid-feedback">&nbsp;</div>
+        </div>
       </div>
-    </div>
-  </form>
-);
+    </form>
+  );
+};
 
 export default ChatCreateMessageForm;
