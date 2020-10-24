@@ -9,11 +9,11 @@ import ChannelList from './components/ChannelList';
 import ChatCreateMessageForm from './components/ChatCreateMessageForm';
 import ChatMessages from './components/ChatMessages';
 
-const App = ({ initState }) => (
+const App = () => (
   <Row className="h-100 pb-3">
     <Col className="col-3 border-right">
       <ChannelCreateButton />
-      <ChannelList channels={initState.channels} currentChannelId={initState.currentChannelId} />
+      <ChannelList />
     </Col>
     <Col className="h-100">
       <div className="d-flex flex-column h-100">
