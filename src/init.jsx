@@ -12,7 +12,7 @@ export default () => {
   console.log('gon', gon);
 
   ReactDOM.render(
-    <App />,
+    <App initState={gon} />,
     document.getElementById('chat'),
   );
 };
