@@ -1,22 +1,28 @@
 // @ts-check
 
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../UserContext';
 
-const ChatCreateMessageForm = () => (
-  <form noValidate>
-    <div className="form-group">
-      <div className="input-group">
-        <input
-          name="body"
-          className="mr-2 form-control"
-          value=""
-          onChange={(f) => f}
-        />
-        <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
-        <div className="d-block invalid-feedback">&nbsp;</div>
+const ChatCreateMessageForm = () => {
+  const userName = useContext(UserContext);
+
+  console.log(userName);
+  return (
+    <form noValidate>
+      <div className="form-group">
+        <div className="input-group">
+          <input
+            name="body"
+            className="mr-2 form-control"
+            value=""
+            onChange={(f) => f}
+          />
+          <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
+          <div className="d-block invalid-feedback">&nbsp;</div>
+        </div>
       </div>
-    </div>
-  </form>
-);
+    </form>
+  );
+};
 
 export default ChatCreateMessageForm;

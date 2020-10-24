@@ -1,18 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import faker from 'faker';
 import gon from 'gon';
-// import cookies from 'js-cookie';
+
 // import io from 'socket.io-client';
 import App from './App';
+import UserContext from './UserContext';
+import getUserName from './getUserName';
 import '../assets/application.scss';
 
 export default () => {
   console.log('it works!');
   console.log('gon', gon);
 
+  const userName = getUserName();
+
   ReactDOM.render(
-    <App initState={gon} />,
+    <UserContext.Provider value={userName}>
+      <App initState={gon} />
+    </UserContext.Provider>,
     document.getElementById('chat'),
   );
 };
