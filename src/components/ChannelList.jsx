@@ -1,5 +1,3 @@
-// @ts-check
-
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';

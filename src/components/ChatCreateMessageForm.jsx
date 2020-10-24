@@ -1,21 +1,39 @@
-// @ts-check
-
 import React, { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { addMessageAsync } from '../store/messages/async/addMessageAsync';
 import UserContext from '../UserContext';
+import selectors from '../store/selectors';
 
 const ChatCreateMessageForm = () => {
-  const userName = useContext(UserContext);
+  const nickname = useContext(UserContext);
+  const channelId = useSelector(selectors.getCurrentChannelId);
+  const dispatch = useDispatch();
 
-  console.log(userName);
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+    },
+    onSubmit: async ({ message }, { setSubmitting, resetForm }) => {
+      const attributes = { message, nickname, channelId };
+      dispatch(addMessageAsync(attributes));
+      setSubmitting(false);
+      resetForm();
+    },
+  });
+
+  console.log(formik.values.message);
   return (
-    <form noValidate>
+    <form noValidate onSubmit={formik.handleSubmit}>
       <div className="form-group">
         <div className="input-group">
           <input
-            name="body"
+            name="message"
             className="mr-2 form-control"
-            value=""
-            onChange={(f) => f}
+            disabled={formik.isSubmitting}
+            value={formik.values.message}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
           />
           <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
           <div className="d-block invalid-feedback">&nbsp;</div>
