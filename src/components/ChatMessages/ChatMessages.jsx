@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import selectors from '../store/selectors';
+import { getChannelMessages } from './getChannelMessages';
 
 const ChatMessages = () => {
-  const messages = useSelector(selectors.getMessages);
+  const messages = useSelector(getChannelMessages);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">

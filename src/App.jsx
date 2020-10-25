@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import ChannelCreateButton from './components/ChannelCreateButton';
 import ChannelList from './components/ChannelList';
 import ChatCreateMessageForm from './components/ChatCreateMessageForm';
-import ChatMessages from './components/ChatMessages';
+import ChatMessages from './components/ChatMessages/ChatMessages';
 
 const App = () => (
   <Row className="h-100 pb-3">
