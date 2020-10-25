@@ -2,10 +2,10 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import ChannelCreateButton from './components/ChannelCreateButton';
-import ChannelList from './components/ChannelList';
-import ChatCreateMessageForm from './components/ChatCreateMessageForm';
-import ChatMessages from './components/ChatMessages';
+import ChannelCreateButton from './components/ChannelCreateButton/ChannelCreateButton';
+import ChannelList from './components/ChannelList/ChannelList';
+import ChatMessages from './components/ChatMessages/ChatMessages';
+import ChatCreateMessageForm from './components/ChatCreateMessageForm/ChatCreateMessageForm';
 
 const App = () => (
   <Row className="h-100 pb-3">

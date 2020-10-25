@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import gon from 'gon';
 
 import App from './App';
-import UserContext from './UserContext';
+import AppContext from './AppContext';
 import getUserName from './getUserName';
 import store from './store';
 import actions from './store/actions';
@@ -13,6 +13,8 @@ import actions from './store/actions';
 import '../assets/application.scss';
 
 export default () => {
+  const nickname = getUserName();
+
   store.dispatch(actions.setChannels(gon.channels));
   store.dispatch(actions.setMessages(gon.messages));
   store.dispatch(actions.setCurrentChannelId(gon.currentChannelId));
@@ -20,14 +22,15 @@ export default () => {
   const socket = io();
 
   socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data.attributes)));
-
-  const userName = getUserName();
+  socket.on('newChannel', ({ data }) => store.dispatch(actions.addChannel(data.attributes)));
+  socket.on('renameChannel', ({ data }) => store.dispatch(actions.renameChannel(data.attributes)));
+  socket.on('removeChannel', ({ data }) => store.dispatch(actions.removeChannel(data.id)));
 
   ReactDOM.render(
     <Provider store={store}>
-      <UserContext.Provider value={userName}>
+      <AppContext.Provider value={{ nickname }}>
         <App />
-      </UserContext.Provider>
+      </AppContext.Provider>
 
     </Provider>,
     document.getElementById('chat'),
