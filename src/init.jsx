@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import gon from 'gon';
 
 import App from './App';
-import UserContext from './UserContext';
+import AppContext from './AppContext';
 import getUserName from './getUserName';
 import store from './store';
 import actions from './store/actions';
@@ -21,13 +21,13 @@ export default () => {
 
   socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data.attributes)));
 
-  const userName = getUserName();
+  const nickname = getUserName();
 
   ReactDOM.render(
     <Provider store={store}>
-      <UserContext.Provider value={userName}>
+      <AppContext.Provider value={{ nickname }}>
         <App />
-      </UserContext.Provider>
+      </AppContext.Provider>
 
     </Provider>,
     document.getElementById('chat'),

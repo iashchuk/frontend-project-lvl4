@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import cx from 'classnames';
-import selectors from '../store/selectors';
-import actions from '../store/actions';
+import selectors from '../../store/selectors';
+import actions from '../../store/actions';
 
 const ChannelList = () => {
   const channels = useSelector(selectors.getChannels);

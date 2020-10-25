@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { addMessageAsync } from '../store/messages/async/addMessageAsync';
-import UserContext from '../UserContext';
-import selectors from '../store/selectors';
+import { addMessageAsync } from '../../store/messages/async/addMessageAsync';
+import AppContext from '../../AppContext';
+import selectors from '../../store/selectors';
 
 const ChatCreateMessageForm = () => {
-  const nickname = useContext(UserContext);
+  const { nickname } = useContext(AppContext);
   const channelId = useSelector(selectors.getCurrentChannelId);
   const dispatch = useDispatch();
 
