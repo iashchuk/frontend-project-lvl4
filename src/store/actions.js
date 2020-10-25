@@ -6,6 +6,4 @@ const actions = {
   ...messages,
 };
 
-console.log(actions);
-
 export default actions;

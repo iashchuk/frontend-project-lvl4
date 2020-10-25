@@ -1,26 +1,23 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
-import cx from 'classnames';
+import ChannelButton from '../ChannelButton/ChannelButton';
+import ChannelDropdownButton from '../ChannelDropdownButton/ChannelDropdownButton';
 import selectors from '../../store/selectors';
-import actions from '../../store/actions';
 
 const ChannelList = () => {
   const channels = useSelector(selectors.getChannels);
-  const currentChannelId = useSelector(selectors.getCurrentChannelId);
-  const dispatch = useDispatch();
 
-  const handleChannelClick = (id) => () => {
-    dispatch(actions.setCurrentChannelId(id));
+  const renderNavButton = (channel) => {
+    const NavButton = channel.removable ? ChannelDropdownButton : ChannelButton;
+    return <NavButton channelId={channel.id}>{channel.name}</NavButton>;
   };
 
   return (
     <Nav as="ul" className="flex-column" variant="pills" fill>
-      {channels.map(({ id, name }) => (
-        <Nav.Item as="li" key={id}>
-          <Nav.Link as="button" className={cx('btn btn-block btn-primary mb-2 text-left', { 'btn-light': id !== currentChannelId })} onClick={handleChannelClick(id)}>
-            {name}
-          </Nav.Link>
+      {channels.map((channel) => (
+        <Nav.Item as="li" key={channel.id} className="mb-2">
+          {renderNavButton(channel)}
         </Nav.Item>
       ))}
     </Nav>
