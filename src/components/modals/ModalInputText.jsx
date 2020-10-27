@@ -20,6 +20,7 @@ const ModalInputText = ({
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(false);
       onConfirm(values.text);
+      onCancel();
     },
   });
   return (
