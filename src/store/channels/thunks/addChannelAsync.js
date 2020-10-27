@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -10,6 +9,7 @@ export const addChannelAsync = createAsyncThunk(
     try {
       const url = routes.channelsPath();
       await axios.post(url, { data: { attributes } });
+      return attributes;
     } catch (error) {
       return rejectWithValue(error.message || "Channel wasn't added. Server error");
     }

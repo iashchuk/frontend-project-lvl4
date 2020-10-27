@@ -14,4 +14,8 @@ const getUserName = () => {
   return newName;
 };
 
-export default getUserName;
+const getCookiesInfo = () => ({
+  nickname: getUserName(),
+});
+
+export default getCookiesInfo;

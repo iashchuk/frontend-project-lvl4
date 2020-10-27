@@ -1,5 +1,5 @@
-import { actions as channels } from './channels';
-import { actions as messages } from './messages';
+import { actions as channels } from './channels/slice';
+import { actions as messages } from './messages/slice';
 
 const actions = {
   ...channels,
