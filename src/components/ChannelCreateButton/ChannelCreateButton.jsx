@@ -1,18 +1,28 @@
-import React, { useState, useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import ModalInputText from '../Modal/ModalInputText';
-import AppContext from '../../AppContext';
+import ModalInputText from '../modals/ModalInputText';
 import thunks from '../../store/channels/thunks';
+import actions from '../../store/actions';
+import selectors from '../../store/selectors';
 
 const ChannelCreateButton = () => {
-  const { nickname } = useContext(AppContext);
   const [modalIsShow, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const modalError = useSelector(selectors.getAddChannelError);
 
-  const handleAddChannel = (name) => {
-    dispatch(thunks.addChannelAsync({ name, nickname }));
+  const handleCancelAdd = () => {
+    if (modalError) {
+      dispatch(actions.resetError({ type: 'addChannel' }));
+    }
     setShowModal(false);
+  };
+
+  const handleAddChannel = async (name) => {
+    const { error } = await dispatch(thunks.addChannelAsync({ name }));
+    if (!error) {
+      handleCancelAdd();
+    }
   };
 
   return (
@@ -21,8 +31,7 @@ const ChannelCreateButton = () => {
         <span>Channels</span>
         <button className="btn btn-link p-0 ml-auto" type="button" onClick={() => setShowModal(true)}>+</button>
       </div>
-
-      {modalIsShow && <ModalInputText title="Rename channel" onCancel={() => setShowModal(false)} onConfirm={handleAddChannel} />}
+      {modalIsShow && <ModalInputText title="Add channel" error={modalError?.message} onCancel={handleCancelAdd} onConfirm={handleAddChannel} />}
     </>
   );
 };

@@ -5,12 +5,13 @@ import routes from '../../../routes';
 
 export const addMessageAsync = createAsyncThunk(
   'messages/addMessageAsync',
-  async (attributes) => {
+  async (attributes, { rejectWithValue }) => {
     try {
       const url = routes.channelMessagesPath(attributes.channelId);
       await axios.post(url, { data: { attributes } });
+      return attributes;
     } catch (error) {
-      console.log(error);
+      return rejectWithValue({ type: 'addMessage', message: `Message wasn't added. ${error.message || 'Server error'}. Try again later ` });
     }
   },
 );

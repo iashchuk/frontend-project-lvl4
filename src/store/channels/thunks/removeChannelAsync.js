@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -10,8 +9,9 @@ export const removeChannelAsync = createAsyncThunk(
     try {
       const url = routes.channelPath(attributes.id);
       await axios.delete(url);
+      return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Channel wasn't removed. Server error");
+      return rejectWithValue({ type: 'removeChannel', message: `Channel wasn't removed. ${error.message || 'Server error'}. Try again later` });
     }
   },
 );

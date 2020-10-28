@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import thunks from '../thunks';
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -12,6 +13,11 @@ const messagesSlice = createSlice({
     },
     addMessage(state, { payload }) {
       state.list.push(payload);
+    },
+  },
+  extraReducers: {
+    [thunks.removeChannelAsync.fulfilled]: (state, { payload }) => {
+      state.list = state.list.filter((item) => item.channelId !== payload.id);
     },
   },
 });

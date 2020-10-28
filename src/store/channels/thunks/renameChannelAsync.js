@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -10,8 +9,9 @@ export const renameChannelAsync = createAsyncThunk(
     try {
       const url = routes.channelPath(attributes.id);
       await axios.patch(url, { data: { attributes } });
+      return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Channel wasn't renamed. Server error");
+      return rejectWithValue({ type: 'renameChannel', message: `Channel wasn't renamed. ${error.message || 'Server error'}. Try again later` });
     }
   },
 );

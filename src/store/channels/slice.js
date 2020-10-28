@@ -1,14 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { addChannelAsync } from './thunks/addChannelAsync';
-import { renameChannelAsync } from './thunks/renameChannelAsync';
-import { removeChannelAsync } from './thunks/removeChannelAsync';
+import thunks from '../thunks';
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     list: [],
-    error: null,
   },
   reducers: {
     setChannels(state, { payload }) {
@@ -28,14 +25,9 @@ const channelsSlice = createSlice({
     },
   },
   extraReducers: {
-    [addChannelAsync.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-    [renameChannelAsync.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-    [removeChannelAsync.rejected]: (state, { payload }) => {
-      state.error = payload;
+    [thunks.removeChannelAsync.fulfilled]: (state) => {
+      const [firstChannelInList] = state.list;
+      state.currentChannelId = firstChannelInList.id;
     },
   },
 });
