@@ -11,7 +11,7 @@ export const renameChannelAsync = createAsyncThunk(
       await axios.patch(url, { data: { attributes } });
       return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Channel wasn't renamed. Server error");
+      return rejectWithValue({ type: 'renameChannel', message: `Channel wasn't renamed. ${error.message || 'Server error'}. Try again later` });
     }
   },
 );

@@ -11,7 +11,7 @@ export const addChannelAsync = createAsyncThunk(
       await axios.post(url, { data: { attributes } });
       return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Channel wasn't added. Server error");
+      return rejectWithValue({ type: 'addChannel', message: `Channel wasn't added. ${error.message || 'Server error'}. Try again later ` });
     }
   },
 );

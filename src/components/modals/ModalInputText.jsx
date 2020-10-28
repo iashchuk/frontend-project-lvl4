@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 
 const ModalInputText = ({
-  title, text, onCancel, onConfirm,
+  title, text, error, onCancel, onConfirm,
 }) => {
   const inputRef = useRef(null);
 
@@ -17,10 +17,9 @@ const ModalInputText = ({
     initialValues: {
       text: text || '',
     },
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
+      await onConfirm(values.text);
       setSubmitting(false);
-      onConfirm(values.text);
-      onCancel();
     },
   });
   return (
@@ -33,7 +32,7 @@ const ModalInputText = ({
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <FormGroup>
+          <FormGroup className="mb-0">
             <FormControl
               ref={inputRef}
               name="text"
@@ -44,6 +43,10 @@ const ModalInputText = ({
               onChange={formik.handleChange}
             />
           </FormGroup>
+          <div className="d-block invalid-feedback mb-1">
+            {error || ''}
+            &nbsp;
+          </div>
           <div className="d-flex justify-content-end">
             <Button type="button" className="btn btn-secondary mr-2" onClick={onCancel}>Cancel</Button>
             <Button type="submit" className="btn btn-primary">Submit</Button>

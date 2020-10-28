@@ -11,7 +11,7 @@ export const addMessageAsync = createAsyncThunk(
       await axios.post(url, { data: { attributes } });
       return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Message wasn't added. Server error");
+      return rejectWithValue({ type: 'addMessage', message: `Message wasn't added. ${error.message || 'Server error'}. Try again later ` });
     }
   },
 );

@@ -6,20 +6,36 @@ import ChannelButton from '../ChannelButton/ChannelButton';
 import selectors from '../../store/selectors';
 import thunks from '../../store/channels/thunks';
 import getModal from '../modals';
+import actions from '../../store/actions';
+import { getModalErrors } from './getModalErrors';
 
 const initialModalState = { type: '', text: '' };
 
 const ChannelDropdownButton = ({ channelId, children }) => {
   const [modalInfo, setModalInfo] = useState(initialModalState);
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
+  const errors = useSelector(getModalErrors);
   const dispatch = useDispatch();
 
-  const handleRenameChannel = (name) => {
-    dispatch(thunks.renameChannelAsync({ id: channelId, name }));
+  const handleCancel = () => {
+    if (errors[modalInfo.action]) {
+      dispatch(actions.resetError({ type: modalInfo.action }));
+    }
+    setModalInfo(initialModalState);
   };
 
-  const handleRemoveChannel = () => {
-    dispatch(thunks.removeChannelAsync({ id: channelId }));
+  const handleRenameChannel = async (name) => {
+    const { error } = await dispatch(thunks.renameChannelAsync({ id: channelId, name }));
+    if (!error) {
+      handleCancel();
+    }
+  };
+
+  const handleRemoveChannel = async () => {
+    const { error } = await dispatch(thunks.removeChannelAsync({ id: channelId }));
+    if (!error) {
+      handleCancel();
+    }
   };
 
   const renderModal = (type) => {
@@ -33,7 +49,8 @@ const ChannelDropdownButton = ({ channelId, children }) => {
       <Modal
         title={modalInfo.title}
         text={modalInfo.text}
-        onCancel={() => setModalInfo(initialModalState)}
+        error={errors[modalInfo.action]}
+        onCancel={handleCancel}
         onConfirm={modalInfo.onConfirm}
       />
     );
@@ -48,11 +65,14 @@ const ChannelDropdownButton = ({ channelId, children }) => {
           variant={currentChannelId === channelId ? 'primary' : 'light'}
         />
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setModalInfo({ type: 'confirm', title: 'Remove channel', onConfirm: handleRemoveChannel })}>
+          <Dropdown.Item onClick={() => setModalInfo({
+            type: 'confirm', action: 'removeChannel', title: 'Remove channel', onConfirm: handleRemoveChannel,
+          })}
+          >
             Remove
           </Dropdown.Item>
           <Dropdown.Item onClick={() => setModalInfo({
-            type: 'textInput', title: 'Rename channel', text: children, onConfirm: handleRenameChannel,
+            type: 'textInput', action: 'renameChannel', title: 'Rename channel', text: children, onConfirm: handleRenameChannel,
           })}
           >
             Rename

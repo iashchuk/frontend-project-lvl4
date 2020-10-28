@@ -11,7 +11,7 @@ export const removeChannelAsync = createAsyncThunk(
       await axios.delete(url);
       return attributes;
     } catch (error) {
-      return rejectWithValue(error.message || "Channel wasn't removed. Server error");
+      return rejectWithValue({ type: 'removeChannel', message: `Channel wasn't removed. ${error.message || 'Server error'}. Try again later` });
     }
   },
 );
