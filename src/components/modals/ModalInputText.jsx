@@ -22,6 +22,7 @@ const ModalInputText = ({
       setSubmitting(false);
     },
   });
+
   return (
     <Modal
       show

@@ -8,6 +8,7 @@ import getCookiesInfo from './cookies';
 import store from './store';
 import initStore from './initStore';
 import initSockets from './sockets';
+import initRollbar from './rollbar';
 
 import '../assets/application.scss';
 
@@ -16,6 +17,7 @@ export default (gon) => {
 
   initStore(gon);
   initSockets();
+  initRollbar();
 
   ReactDOM.render(
     <Provider store={store}>
