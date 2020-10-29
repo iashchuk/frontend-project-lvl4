@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: [`${__dirname}/src/index.js`],
   externals: {
     gon: 'gon',
   },
@@ -14,6 +13,10 @@ module.exports = {
   output: {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
+  },
+  devServer: {
+    publicPath: '/assets/',
+    compress: true,
   },
   plugins: [
     new MiniCssExtractPlugin(),
@@ -28,7 +31,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          { loader: 'style-loader' },
+          { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
