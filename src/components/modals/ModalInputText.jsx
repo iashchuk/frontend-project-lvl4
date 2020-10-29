@@ -11,6 +11,7 @@ const ModalInputText = ({
 
   useEffect(() => {
     inputRef.current.select();
+    throw new Error('Modal error! Its work');
   }, []);
 
   const formik = useFormik({
@@ -22,6 +23,7 @@ const ModalInputText = ({
       setSubmitting(false);
     },
   });
+
   return (
     <Modal
       show
