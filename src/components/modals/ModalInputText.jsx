@@ -19,7 +19,9 @@ const ModalInputText = ({
     },
     onSubmit: async (values, { setSubmitting }) => {
       await onConfirm(values.text);
-      setSubmitting(false);
+      if (inputRef.current) {
+        setSubmitting(false);
+      }
     },
   });
 

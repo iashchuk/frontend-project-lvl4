@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 
-import ChannelButton from '../ChannelButton/ChannelButton';
-import selectors from '../../store/selectors';
-import thunks from '../../store/channels/thunks';
-import getModal from '../modals';
-import actions from '../../store/actions';
-import { getModalErrors } from './getModalErrors';
+import ChannelButton from './ChannelButton';
+import { thunks, actions, selectors } from '../store';
+import getModal from './modals';
+
+const channelActions = {
+  rename: 'renameChannel',
+  remove: 'removeChannel',
+};
+
+const getModalErrors = createSelector(
+  [selectors.getRenameChannelError, selectors.getRemoveChannelError], (renameErr, removeErr) => ({
+    [channelActions.rename]: renameErr?.message,
+    [channelActions.remove]: removeErr?.message,
+  }),
+);
 
 const initialModalState = { type: '', text: '' };
 
 const ChannelDropdownButton = ({ channelId, children }) => {
   const [modalInfo, setModalInfo] = useState(initialModalState);
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
-  const errors = useSelector(getModalErrors);
+  const modalErrors = useSelector(getModalErrors);
   const dispatch = useDispatch();
 
   const handleCancel = () => {
-    if (errors[modalInfo.action]) {
+    if (modalErrors[modalInfo.action]) {
       dispatch(actions.resetError({ type: modalInfo.action }));
     }
     setModalInfo(initialModalState);
@@ -45,13 +55,18 @@ const ChannelDropdownButton = ({ channelId, children }) => {
 
     const Modal = getModal(type);
 
+    const modalActions = {
+      [channelActions.rename]: handleRenameChannel,
+      [channelActions.remove]: handleRemoveChannel,
+    };
+
     return (
       <Modal
         title={modalInfo.title}
         text={modalInfo.text}
-        error={errors[modalInfo.action]}
+        error={modalErrors[modalInfo.action]}
         onCancel={handleCancel}
-        onConfirm={modalInfo.onConfirm}
+        onConfirm={modalActions[modalInfo.action]}
       />
     );
   };
@@ -66,13 +81,13 @@ const ChannelDropdownButton = ({ channelId, children }) => {
         />
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => setModalInfo({
-            type: 'confirm', action: 'removeChannel', title: 'Remove channel', onConfirm: handleRemoveChannel,
+            type: 'confirm', action: channelActions.remove, title: 'Remove channel',
           })}
           >
             Remove
           </Dropdown.Item>
           <Dropdown.Item onClick={() => setModalInfo({
-            type: 'textInput', action: 'renameChannel', title: 'Rename channel', text: children, onConfirm: handleRenameChannel,
+            type: 'textInput', action: channelActions.rename, title: 'Rename channel', text: children,
           })}
           >
             Rename

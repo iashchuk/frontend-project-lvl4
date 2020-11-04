@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ModalInputText from '../modals/ModalInputText';
-import thunks from '../../store/channels/thunks';
-import actions from '../../store/actions';
-import selectors from '../../store/selectors';
+import ModalInputText from './modals/ModalInputText';
+import { thunks, actions, selectors } from '../store';
 
 const ChannelCreateButton = () => {
   const [modalIsShow, setShowModal] = useState(false);

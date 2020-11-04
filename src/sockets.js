@@ -1,8 +1,7 @@
 import io from 'socket.io-client';
-import store from './store';
-import actions from './store/actions';
+import { actions } from './store';
 
-const initSockets = () => {
+const initSockets = (store) => {
   const socket = io();
 
   socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data.attributes)));

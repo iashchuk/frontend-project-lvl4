@@ -1,22 +1,28 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
+import cookies from 'js-cookie';
+import faker from 'faker';
 
 import App from './App';
 import AppContext from './AppContext';
-import getCookiesInfo from './cookies';
-import store from './store';
-import initStore from './initStore';
+import initStore from './store';
 import initSockets from './sockets';
 import initRollbar from './rollbar';
 
 import '../assets/application.scss';
 
 export default (gon) => {
-  const { nickname } = getCookiesInfo();
+  // eslint-disable-next-line functional/no-let
+  let nickname = cookies.get('userName');
 
-  initStore(gon);
-  initSockets();
+  if (!nickname) {
+    nickname = faker.name.findName();
+    cookies.set('userName', nickname);
+  }
+
+  const store = initStore(gon);
+  initSockets(store);
   initRollbar();
 
   ReactDOM.render(
