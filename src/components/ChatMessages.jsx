@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
-import selectors from '../store/selectors';
+import { selectors } from '../store';
 
 const getChannelMessages = createSelector(
   [selectors.getMessages, selectors.getCurrentChannelId],

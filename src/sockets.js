@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import actions from './store/actions';
+import { actions } from './store';
 
 const initSockets = (store) => {
   const socket = io();

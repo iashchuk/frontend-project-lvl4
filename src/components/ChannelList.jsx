@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import ChannelButton from './ChannelButton';
 import ChannelDropdownButton from './ChannelDropdownButton';
-import selectors from '../store/selectors';
+import { selectors } from '../store';
 
 const ChannelList = () => {
   const channels = useSelector(selectors.getChannels);

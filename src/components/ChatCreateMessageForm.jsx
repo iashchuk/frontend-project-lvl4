@@ -6,10 +6,8 @@ import {
   FormGroup, FormControl, InputGroup, Form, Button,
 } from 'react-bootstrap';
 
-import thunks from '../store/messages/thunks';
+import { thunks, actions, selectors } from '../store';
 import AppContext from '../AppContext';
-import selectors from '../store/selectors';
-import actions from '../store/actions';
 
 const ChatCreateMessageForm = () => {
   const { nickname } = useContext(AppContext);

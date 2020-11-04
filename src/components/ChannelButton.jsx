@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import selectors from '../store/selectors';
-import actions from '../store/actions';
+import { actions, selectors } from '../store';
 
 const ChannelButton = ({ channelId, children }) => {
   const currentChannelId = useSelector(selectors.getCurrentChannelId);

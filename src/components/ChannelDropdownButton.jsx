@@ -4,10 +4,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 
 import ChannelButton from './ChannelButton';
-import selectors from '../store/selectors';
-import thunks from '../store/channels/thunks';
+import { thunks, actions, selectors } from '../store';
 import getModal from './modals';
-import actions from '../store/actions';
 
 const getModalErrors = createSelector(
   [selectors.getRenameChannelError, selectors.getRemoveChannelError], (renameErr, removeErr) => ({
