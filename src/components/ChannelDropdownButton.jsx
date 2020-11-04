@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 
-import ChannelButton from '../ChannelButton/ChannelButton';
-import selectors from '../../store/selectors';
-import thunks from '../../store/channels/thunks';
-import getModal from '../modals';
-import actions from '../../store/actions';
-import { getModalErrors } from './getModalErrors';
+import ChannelButton from './ChannelButton';
+import selectors from '../store/selectors';
+import thunks from '../store/channels/thunks';
+import getModal from './modals';
+import actions from '../store/actions';
+
+const getModalErrors = createSelector(
+  [selectors.getRenameChannelError, selectors.getRemoveChannelError], (renameErr, removeErr) => ({
+    renameChannel: renameErr?.message,
+    removeChannel: removeErr?.message,
+  }),
+);
 
 const initialModalState = { type: '', text: '' };
 

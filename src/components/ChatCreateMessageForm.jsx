@@ -1,15 +1,15 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import cx from 'classnames';
 import {
   FormGroup, FormControl, InputGroup, Form, Button,
 } from 'react-bootstrap';
-import cx from 'classnames';
 
-import thunks from '../../store/messages/thunks';
-import AppContext from '../../AppContext';
-import selectors from '../../store/selectors';
-import actions from '../../store/actions';
+import thunks from '../store/messages/thunks';
+import AppContext from '../AppContext';
+import selectors from '../store/selectors';
+import actions from '../store/actions';
 
 const ChatCreateMessageForm = () => {
   const { nickname } = useContext(AppContext);

@@ -1,6 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getChannelMessages } from './getChannelMessages';
+import { createSelector } from '@reduxjs/toolkit';
+import selectors from '../store/selectors';
+
+const getChannelMessages = createSelector(
+  [selectors.getMessages, selectors.getCurrentChannelId],
+  (messages, currentChannel) => messages.filter(({ channelId }) => channelId === currentChannel),
+);
 
 const ChatMessages = () => {
   const messages = useSelector(getChannelMessages);
